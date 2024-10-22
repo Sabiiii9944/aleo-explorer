@@ -3,7 +3,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Installs Aleo module build dependencies
-RUN set -eux; \
+RUNp set -eux; \
     apk add --no-cache \
     git \
     curl \
