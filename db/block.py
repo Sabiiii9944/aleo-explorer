@@ -64,7 +64,7 @@ class DatabaseBlock(DatabaseBase):
             program_id = res["program_id"]
             function_name = res["function_name"]
             await cur.execute(
-                "SELECT id, type, plaintext FROM future_argument WHERE future_id = %s",
+                "SELECT id, type, plaintext FROM future_argument WHERE future_id = %s ORDER BY id",
                 (future_db_id,)
             )
             arguments: list[Argument] = []
@@ -663,7 +663,7 @@ class DatabaseBlock(DatabaseBase):
                 case ConfirmedTransaction.Type.AcceptedExecute.name | ConfirmedTransaction.Type.RejectedExecute.name:
                     execute_transaction = transaction
                     await cur.execute(
-                        "SELECT * FROM transition WHERE transaction_execute_id = %s",
+                        "SELECT * FROM transition WHERE transaction_execute_id = %s ORDER BY id",
                         (execute_transaction["transaction_execute_id"],)
                     )
                     transitions = await cur.fetchall()
@@ -1003,9 +1003,8 @@ class DatabaseBlock(DatabaseBase):
             else:
                 transaction_count = res["count"]
             await cur.execute(
-                "SELECT COUNT(*) FROM solution s "
-                "JOIN puzzle_solution ps on s.puzzle_solution_id = ps.id "
-                "WHERE ps.block_id = %s",
+                "WITH ps AS (SELECT ps.id FROM puzzle_solution ps WHERE ps.block_id = %s LIMIT 1) "
+                "SELECT COUNT(*) FROM solution s, ps WHERE s.puzzle_solution_id = ps.id",
                 (block["id"],)
             )
             if (res := await cur.fetchone()) is None:
