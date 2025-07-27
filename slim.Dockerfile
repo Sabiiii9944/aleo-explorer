@@ -1,4 +1,4 @@
-FROM python:3.11-slim as builder
+FROM python:3.14.0rc1-slim as builder
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -33,7 +33,7 @@ RUN set -eux; \
     pip wheel -w /dist/  -r /app/requirements.txt 
 
 
-FROM python:3.11-slim as runtime
+FROM python:3.14.0rc1-slim as runtime
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
