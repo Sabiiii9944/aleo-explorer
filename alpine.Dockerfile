@@ -1,4 +1,4 @@
-FROM python:3.11-alpine as builder
+FROM python:3.14.0rc1-alpine as builder
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -37,7 +37,7 @@ RUN set -eux; \
     pip wheel -w /dist/  -r /app/requirements.txt 
 
 
-FROM python:3.11-alpine as runtime
+FROM python:3.14.0rc1-alpine as runtime
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
