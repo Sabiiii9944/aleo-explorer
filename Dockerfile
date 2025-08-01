@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.14.0rc1-slim
 LABEL authors="snowtigersoft"
 
 RUN apt-get update && apt-get -y upgrade && \
